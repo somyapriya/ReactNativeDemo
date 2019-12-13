@@ -20,7 +20,7 @@ This Application consist of App.js(root file) file in src folder . Src folder co
 
 **FetchApi** - This folder has api.js file, where api call is being done
 
-**Navigatios** - This folder has idex.js file, where navigations between screens and drawer navigations is done
+**Navigations** - This folder has idex.js file, where navigations between screens and drawer navigations is done
 
 **Reducers** - This folder has appReducer.js file in which redux reducers is been handled
 
