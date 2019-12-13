@@ -53,10 +53,6 @@ const Dashboard = createDrawerNavigator({
 const MainNavigation = createSwitchNavigator({
     HomeDrawer: RootStack,
     AuthStack: Dashboard,
-
-
-
-
 })
 
 

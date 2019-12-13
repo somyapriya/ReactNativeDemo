@@ -21,7 +21,20 @@ export const styles = StyleSheet.create({
         height: 110,
         padding: 16,
         marginBottom: 10,
-    }
+    },
+    textInput: { marginLeft: 15 },
+    cardWrapper: { flexDirection: 'row', alignItems: 'center' },
+    titleWrapper: { fontSize: 16, alignSelf: 'center', marginTop: 10 },
+    publishDateWrapper: {
+        backgroundColor: '#EBDEF0', width: 84, borderRadius: 8,
+        paddingVertical: 20,
+    },
+    textPublish: {
+        fontWeight: 'bold',
+        fontSize: 12,
+        lineHeight: 14,
+        textAlign: 'center',
+    }, picker: { fontSize: 16, marginRight: 10, fontWeight: '600' }
 })
 
 

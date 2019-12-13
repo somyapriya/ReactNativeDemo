@@ -5,13 +5,11 @@ import {
     FlatList, StyleSheet
 } from 'react-native'
 import RNPickerSelect from 'react-native-picker-select';
-import { Icon } from 'react-native-elements';
 import { connect } from 'react-redux'
 import { styles } from './Styles'
 import { fetchData } from '../../FetchApi/api';
 import HeaderComponent from '../../Components/HeaderComponent'
 import { Cards } from './Cards'
-import { placeholder } from '@babel/types';
 
 class Listing extends Component {
 
@@ -79,7 +77,7 @@ class Listing extends Component {
                     flex: 1
                 }}>
                     <View style={styles.pickerWrapper}>
-                        <Text style={{ fontSize: 16, marginRight: 10, fontWeight: '600' }}>Select the period:</Text>
+                        <Text style={styles.picker}>Select the period:</Text>
                         <RNPickerSelect
                             items={this.state.items}
                             onValueChange={(itemValue) => this.onChangePicker(itemValue)}
