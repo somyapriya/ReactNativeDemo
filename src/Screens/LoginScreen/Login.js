@@ -43,7 +43,7 @@ export class Login extends React.Component {
                     rightBarRequire={false}
                 />
                 <View style={styles.inputWrapper}>
-                    <Text style={styles.label}>USERNAME</Text>
+                    <Text style={styles.label}>USERNAME*</Text>
                     <TextInput
                         underLineColorAndroid='transparent'
                         style={styles.inputText}
@@ -51,7 +51,7 @@ export class Login extends React.Component {
                         onChangeText={(text) => this.setState({ username: text })}
                         placeholder='username' />
 
-                    <Text style={styles.label}>PASSWORD</Text>
+                    <Text style={styles.label}>PASSWORD*</Text>
                     <TextInput
                         secureTextEntry={true}
                         underLineColorAndroid='transparent'
