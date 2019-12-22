@@ -16,17 +16,28 @@ export class Login extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
-            username: '', password: '', errorField: false
+            username: '', password: '', errorField: false, errorMessage: 'Please enter required fields **'
         }
     }
     loginClicked() {
+        const reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+
         const { username, password } = this.state
-        if (username === '' && password === '' || username === '' || password === '') {
+        if (username === '' && password === '' || username === '' || password === '' || reg.test(username) != true || password.length < 8) {
             this.setState({ errorField: true })
+
+            if (reg.test(username) === false || username === '') {
+                this.setState({ errorMessage: 'Please enter valid email' })
+            }
+            if (password === '' || password.length < 8) {
+                this.setState({ errorMessage: 'Please enter valid password of atleast 8 character' })
+            }
+            if (username === '' && password === '' || (reg.test(username) != true) && password.length < 8) {
+                this.setState({ errorMessage: 'Please enter required fields **' })
+            }
         }
         else {
             this.setState({ errorField: false, })
-
             this.props.navigation.navigate('AuthStack')
         }
 
@@ -63,7 +74,7 @@ export class Login extends React.Component {
 
                     <View style={{ marginTop: 30 }}>
                         {errorField && (
-                            <Text style={styles.errorText}>Please enter required fields**</Text>
+                            <Text style={styles.errorText}>{this.state.errorMessage}</Text>
                         )}
                         <CTAButton onClick={() => this.loginClicked()} size={30} text={"Login"} />
                     </View>

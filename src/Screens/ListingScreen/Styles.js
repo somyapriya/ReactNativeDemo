@@ -1,10 +1,8 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet, Platform } from 'react-native'
 
 
 export const styles = StyleSheet.create({
-    pickerWrapper: { flexDirection: 'row', marginTop: 20, alignItems: 'center', marginBottom: 10 },
     shadowContainer: {
-
         padding: 16,
         backgroundColor: '#ffffff',
         marginBottom: 8,
@@ -34,7 +32,20 @@ export const styles = StyleSheet.create({
         fontSize: 12,
         lineHeight: 14,
         textAlign: 'center',
-    }, picker: { fontSize: 16, marginRight: 10, fontWeight: '600' }
+    }, picker: { fontSize: 16, marginRight: 10, fontWeight: '600' },
+    wrapper: {
+        backgroundColor: '#F9F9F9', flex: 1, paddingTop: 10
+    },
+    pickerWrapper: { flexDirection: 'row', marginHorizontal: 16, marginBottom: 30 }, textPicker: { borderWidth: 1, width: 50, textAlign: 'center' },
+    pickerStyle:
+        Platform.OS == 'ios' ? {
+            alignSelf: 'flex-start',
+            position: 'relative', bottom: 200, width: '100%', backgroundColor: '#fff',
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: -8 },
+            shadowOpacity: 0.1,
+            shadowRadius: 4,
+        } : '',
 })
 
 

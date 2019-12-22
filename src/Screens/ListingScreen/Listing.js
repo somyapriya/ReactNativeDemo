@@ -1,37 +1,20 @@
 import React, { Component } from 'react'
-import {
-    Text,
-    View,
-    FlatList, StyleSheet
-} from 'react-native'
-import RNPickerSelect from 'react-native-picker-select';
+import { Text, View, FlatList, StyleSheet, Picker, Platform } from 'react-native'
 import { connect } from 'react-redux'
 import { styles } from './Styles'
 import { fetchData } from '../../FetchApi/api';
 import HeaderComponent from '../../Components/HeaderComponent'
 import { Cards } from './Cards'
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 class Listing extends Component {
 
     constructor(props) {
         super(props)
         this.state = {
-            itemValue: 1,
-            items: [
-                {
-                    label: "1",
-                    value: 1,
-                },
-                {
-                    label: "7",
-                    value: 7,
-                },
-                {
-                    label: "30",
-                    value: 30,
-                },
-
-            ],
+            pickerOpacity: 0,
+            opacityOfOtherItems: 1,
+            user: '1',
             results: [],
         }
 
@@ -39,9 +22,32 @@ class Listing extends Component {
     componentDidMount() {
         this.callApi()
     }
+
+    updateUser = (user) => {
+        this.setState({ user: user })
+        setTimeout(() => {
+            this.callApi()
+            this.togglePicker()
+        }, 100);
+    }
+    togglePicker() {
+        if (Platform.OS === 'ios') {
+            if (this.state.pickerOpacity == 0) {
+                this.setState({
+                    pickerOpacity: 1,
+                    opacityOfOtherItems: 0
+                });
+            } else {
+                this.setState({
+                    pickerOpacity: 0,
+                    opacityOfOtherItems: 1
+                });
+            }
+        }
+    }
+
     async callApi() {
-        const data = await fetchData(this.state.itemValue)
-        console.log("data", data.results)
+        const data = await fetchData(this.state.user)
         this.setState({ results: data.results })
     }
     keyExtractor = (item, index) => item.id
@@ -62,6 +68,7 @@ class Listing extends Component {
         setTimeout(() => {
             this.callApi()
         }, 100);
+
     }
     render() {
         return (
@@ -71,36 +78,39 @@ class Listing extends Component {
                     leftBarRequire={true}
                     rightBarRequire={true}
                 />
-                <View style={{
-                    paddingHorizontal: 16,
-                    backgroundColor: '#F9F9F9', marginBottom: 20,
-                    flex: 1
-                }}>
+                <View style={styles.wrapper}>
                     <View style={styles.pickerWrapper}>
                         <Text style={styles.picker}>Select the period:</Text>
-                        <RNPickerSelect
-                            items={this.state.items}
-                            onValueChange={(itemValue) => this.onChangePicker(itemValue)}
-                            value={this.state.itemValue}
-                            style={pickerSelectStyles}
-                        />
+                        <TouchableOpacity onPress={() => this.togglePicker()} >
+                            <Text style={styles.textPicker}>{this.state.user}</Text>
+                        </TouchableOpacity>
                     </View>
+                    <View style={{ paddingHorizontal: 16 }}>
+                        {this.state.results.length > 0 ? (
+                            <FlatList
+                                data={this.state.results}
+                                keyExtractor={this.keyExtractor}
+                                showsVerticalScrollIndicator={false}
+                                showsHorizontalScrollIndicator={false}
+                                renderItem={({ item }) => (
+                                    <Cards onclick={(item) => this.onCardPress(item)} item={item} />)}
+                            />
+                        ) : <Placeholder />}
+                    </View>
+                    <Picker selectedValue={this.state.user}
+                        style={[styles.pickerStyle, Platform.OS == 'ios' ?
+                            {
+                                opacity: this.state.pickerOpacity
+                            } : '']
+                        }
+                        onValueChange={this.updateUser} mode="dropdown">
+                        <Picker.Item label="1" value={1} />
+                        <Picker.Item label="7" value={7} />
+                        <Picker.Item label="30" value={30} />
+                    </Picker>
+                </View>
+            </View >
 
-                    {this.state.results.length > 0 ? (
-                        <FlatList
-                            data={this.state.results}
-                            keyExtractor={this.keyExtractor}
-                            showsVerticalScrollIndicator={false}
-                            showsHorizontalScrollIndicator={false}
-                            renderItem={({ item }) => (
-                                <Cards onclick={(item) => this.onCardPress(item)} item={item} />
-                            )}
-                        />
-
-                    ) : <Placeholder />}
-
-                </View >
-            </View>
         );
     }
 
