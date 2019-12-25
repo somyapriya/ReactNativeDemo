@@ -64,10 +64,8 @@ class Listing extends Component {
         this.props.navigation.navigate('Detail')
     }
     onChangePicker(itemValue) {
-        this.setState({ itemValue: itemValue })
-        setTimeout(() => {
-            this.callApi()
-        }, 100);
+        this.setState({ itemValue: itemValue },
+            () => this.callApi())
 
     }
     render() {
@@ -84,6 +82,14 @@ class Listing extends Component {
                         <TouchableOpacity onPress={() => this.togglePicker()} >
                             <Text style={styles.textPicker}>{this.state.user}</Text>
                         </TouchableOpacity>
+                        {Platform.OS == 'android' && (
+                            <Picker selectedValue={this.state.user}
+                                onValueChange={this.updateUser} mode="dropdown">
+                                <Picker.Item label="1" value={1} />
+                                <Picker.Item label="7" value={7} />
+                                <Picker.Item label="30" value={30} />
+                            </Picker>
+                        )}
                     </View>
                     <View style={{ paddingHorizontal: 16 }}>
                         {this.state.results.length > 0 ? (
@@ -97,17 +103,20 @@ class Listing extends Component {
                             />
                         ) : <Placeholder />}
                     </View>
-                    <Picker selectedValue={this.state.user}
-                        style={[styles.pickerStyle, Platform.OS == 'ios' ?
-                            {
-                                opacity: this.state.pickerOpacity
-                            } : '']
-                        }
-                        onValueChange={this.updateUser} mode="dropdown">
-                        <Picker.Item label="1" value={1} />
-                        <Picker.Item label="7" value={7} />
-                        <Picker.Item label="30" value={30} />
-                    </Picker>
+                    {this.state.pickerOpacity == 1 && Platform.OS == 'ios' && (
+                        <Picker selectedValue={this.state.user}
+                            style={[styles.pickerStyle, Platform.OS == 'ios' ?
+                                {
+                                    opacity: this.state.pickerOpacity
+                                } : '']
+                            }
+                            onValueChange={this.updateUser} mode="dropdown">
+                            <Picker.Item label="1" value={1} />
+                            <Picker.Item label="7" value={7} />
+                            <Picker.Item label="30" value={30} />
+                        </Picker>
+                    )}
+
                 </View>
             </View >
 
